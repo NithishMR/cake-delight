@@ -1,193 +1,8 @@
 const BasketModel = require("../model/Basket");
 const OrderModel = require("../model/Order");
-const catalogServiceUrl = "http://localhost:3001";
+const { publishOrderCompleted } = require("../services/rabbitmq");
 
 const orderController = {
-  addToBasket: async (req, res) => {
-    console.log(req.body);
-    const { cakeId, quantity } = req.body;
-
-    if (!cakeId || !quantity || quantity < 1) {
-      return res.status(400).json({
-        message: "cakeId and a valid quantity are required",
-      });
-    }
-
-    try {
-      const response = await fetch(`${catalogServiceUrl}/api/cakes/${cakeId}`);
-
-      if (!response.ok) {
-        return res.status(404).json({
-          message: "Cake not found",
-        });
-      }
-
-      const cake = await response.json();
-
-      if (!cake.available) {
-        return res.status(400).json({
-          message: "Cake is currently unavailable",
-        });
-      }
-
-      const customerId = "C001"; //  default customer Id
-
-      let basket = await BasketModel.findOne({ customerId });
-
-      // Create basket if it doesn't exist
-      if (!basket) {
-        basket = new BasketModel({
-          customerId,
-          items: [],
-        });
-      }
-
-      const existingItem = basket.items.find((item) => item.cakeId === cakeId);
-
-      if (existingItem) {
-        existingItem.quantity += quantity;
-
-        existingItem.subtotal = existingItem.quantity * existingItem.unitPrice;
-      } else {
-        basket.items.push({
-          cakeId: cakeId,
-          cakeName: cake.name,
-          quantity: quantity,
-          unitPrice: cake.price,
-          subtotal: cake.price * quantity,
-        });
-      }
-
-      basket.totalAmount = basket.items.reduce(
-        (total, item) => total + item.subtotal,
-        0,
-      );
-
-      await basket.save();
-
-      return res.status(200).json({
-        message: "Cake added to basket",
-        basket,
-      });
-    } catch (error) {
-      console.error("Error adding cake to basket:", error);
-
-      return res.status(500).json({
-        message: "Failed to add cake to basket",
-      });
-    }
-  },
-  getBasket: async (req, res) => {
-    try {
-      const customerId = "C001";
-
-      const basket = await BasketModel.findOne({ customerId });
-
-      if (!basket) {
-        return res.status(404).json({
-          message: "Basket not found",
-        });
-      }
-      return res.status(200).json({
-        basket,
-      });
-    } catch (error) {
-      console.error("Error fetching basket:", error);
-
-      return res.status(500).json({
-        message: "Failed to fetch basket",
-      });
-    }
-  },
-  updateBasketItem: async (req, res) => {
-    const { cakeId } = req.params;
-    const { quantity } = req.body;
-
-    if (!quantity || quantity < 1) {
-      return res.status(400).json({
-        message: "A valid quantity is required",
-      });
-    }
-    try {
-      const customerId = "C001";
-      const basket = await BasketModel.findOne({ customerId });
-      if (!basket) {
-        return res.status(404).json({
-          message: "Basket not found",
-        });
-      }
-      const item = basket.items.find((item) => item.cakeId === cakeId);
-      if (!item) {
-        return res.status(404).json({
-          message: "Cake not found in basket",
-        });
-      }
-      item.quantity = quantity;
-      item.subtotal = item.quantity * item.unitPrice;
-      basket.totalAmount = basket.items.reduce(
-        (total, item) => total + item.subtotal,
-        0,
-      );
-
-      await basket.save();
-
-      return res.status(200).json({
-        message: "Basket item updated",
-        basket,
-      });
-    } catch (error) {
-      console.error("Error updating basket item:", error);
-
-      return res.status(500).json({
-        message: "Failed to update basket item",
-      });
-    }
-  },
-  removeFromBasket: async (req, res) => {
-    const { cakeId } = req.params;
-
-    try {
-      const customerId = "C001";
-
-      const basket = await BasketModel.findOne({ customerId });
-
-      if (!basket) {
-        return res.status(404).json({
-          message: "Basket not found",
-        });
-      }
-
-      const itemIndex = basket.items.findIndex(
-        (item) => item.cakeId === cakeId,
-      );
-
-      if (itemIndex === -1) {
-        return res.status(404).json({
-          message: "Cake not found in basket",
-        });
-      }
-
-      basket.items.splice(itemIndex, 1);
-
-      basket.totalAmount = basket.items.reduce(
-        (total, item) => total + item.subtotal,
-        0,
-      );
-
-      await basket.save();
-
-      return res.status(200).json({
-        message: "Cake removed from basket",
-        basket,
-      });
-    } catch (error) {
-      console.error("Error removing cake from basket:", error);
-
-      return res.status(500).json({
-        message: "Failed to remove cake from basket",
-      });
-    }
-  },
   checkout: async (req, res) => {
     try {
       const customerId = "C001";
@@ -269,6 +84,66 @@ const orderController = {
 
       return res.status(500).json({
         message: "Failed to fetch orders",
+      });
+    }
+  },
+  updateOrderStatus: async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    try {
+      const order = await OrderModel.findById(orderId);
+
+      if (!order) {
+        return res.status(404).json({
+          message: "Order not found",
+        });
+      }
+
+      // Validate status
+      const validStatuses = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"];
+
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({
+          message: "Invalid order status",
+        });
+      }
+
+      // Check allowed transitions
+      const currentStatus = order.status;
+
+      const allowedTransitions = {
+        PENDING: ["COMPLETED", "CANCELLED"],
+        CONFIRMED: [],
+        COMPLETED: [],
+        CANCELLED: [],
+      };
+
+      if (!allowedTransitions[currentStatus].includes(status)) {
+        return res.status(400).json({
+          message: `Cannot change order status from ${currentStatus} to ${status}`,
+        });
+      }
+
+      order.status = status;
+
+      if (status === "COMPLETED") {
+        order.completedAt = new Date();
+      }
+
+      await order.save();
+      if (status === "COMPLETED") {
+        await publishOrderCompleted(order);
+      }
+      return res.status(200).json({
+        message: "Order status updated successfully",
+        order,
+      });
+    } catch (error) {
+      console.error("Error updating order status:", error);
+
+      return res.status(500).json({
+        message: "Failed to update order status",
       });
     }
   },

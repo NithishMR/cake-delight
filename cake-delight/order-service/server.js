@@ -1,12 +1,13 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const orderRoute = require("./routes/orderRoute");
+const basketRoute = require("./routes/basketRoute");
+const { connectRabbitMQ } = require("./services/rabbitmq");
 const app = express();
 
 const PORT = 3002;
 const serviceUrl = `http://localhost:${PORT}`;
 app.use(express.json());
-connectDB();
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Order service running successfully" });
 });
@@ -16,8 +17,20 @@ app.get("/api/health", (req, res) => {
     service: "catalog-service",
   });
 });
-app.use("/api/", orderRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/basket", basketRoute);
+const startServer = async () => {
+  try {
+    await connectDB();
+    await connectRabbitMQ();
 
-app.listen(PORT, () => {
-  console.log(`Order service running at ${serviceUrl}`);
-});
+    app.listen(PORT, () => {
+      console.log(`Order Service running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start Order Service:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

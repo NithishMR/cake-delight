@@ -5,12 +5,26 @@ services:
       - mongo-catalog
     ports:
       - "3001:3001"
+  order-service:
+    build: ./order-service
+    depends_on:
+      - mongo-order
+      - rabbitmq-service
+    ports:
+      - "3002:3002"
   mongo-catalog:
     image: mongo:latest
-    ports:
-      - "27017:27017"
     volumes:
       - mongo-catalog-data:/data/db
-
+  mongo-order:
+    image: mongo:latest
+    volumes:
+      - mongo-order-data:/data/db
+  rabbitmq-service:
+    image: rabbitmq:management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
 volumes:
   mongo-catalog-data:
+  mongo-order-data:
