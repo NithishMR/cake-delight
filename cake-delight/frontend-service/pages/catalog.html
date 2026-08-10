@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Catalog - Cake Delight</title>
+
+    <link rel="stylesheet" href="../styles/catalog.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="logo">
+            Cake Delight
+        </div>
+
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="./catalog.html">Catalog</a>
+            <a href="./cart.html">Cart</a>
+            <a href="./orders.html">Orders</a>
+            <a href="./ratings.html">Ratings</a>
+            <a href="./notifications.html" id="notification-link">
+                🔔
+            </a>
+        </nav>
+
+    </header>
+
+
+    <main class="catalog-container">
+
+        <div class="page-heading">
+            <h1>Our Cakes</h1>
+            <p>Choose something delicious.</p>
+        </div>
+        <section class="filter-section">
+
+            <input type="text" id="name-filter" placeholder="Search by name">
+
+            <select id="category-filter">
+                <option value="">All Categories</option>
+                <option value="Birthday">Birthday</option>
+                <option value="Classic">Classic</option>
+                <option value="Premium">Premium</option>
+                <option value="Anniversary">Anniversary</option>
+                <option value="Wedding">Wedding</option>
+            </select>
+
+            <input type="number" id="min-price" placeholder="Minimum price" min="0">
+
+            <input type="number" id="max-price" placeholder="Maximum price" min="0">
+
+            <button id="filter-button">
+                Apply Filters
+            </button>
+
+            <button id="clear-filter-button">
+                Clear
+            </button>
+
+        </section>
+        <section id="product-list" class="product-list">
+            <!-- Products will be inserted here by JavaScript -->
+        </section>
+
+    </main>
+
+
+    <script src="../js/catalog.js"></script>
+    <script src="../js/navbar.js"></script>
+</body>
+
+</html>

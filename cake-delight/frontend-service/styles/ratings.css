@@ -1,0 +1,197 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fffaf7;
+  color: #333;
+}
+
+/* Navbar */
+
+.navbar {
+  height: 70px;
+  padding: 0 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: white;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 25px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333;
+}
+
+.navbar a:hover {
+  opacity: 0.7;
+}
+
+/* Main */
+
+.ratings-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 50px 30px;
+}
+
+.ratings-container h1 {
+  margin-bottom: 35px;
+}
+
+/* Sections */
+
+.ratings-section {
+  background-color: white;
+
+  padding: 25px;
+  margin-bottom: 30px;
+
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+}
+
+.ratings-section h2 {
+  margin-bottom: 25px;
+}
+
+/* Rating cards */
+
+.rating-card {
+  padding: 20px 0;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.rating-card:last-child {
+  border-bottom: none;
+}
+
+.rating-card h3 {
+  margin-bottom: 10px;
+}
+
+.rating-card p {
+  margin-bottom: 12px;
+}
+
+/* Stars */
+
+.star-container {
+  display: flex;
+  gap: 5px;
+
+  margin-bottom: 15px;
+}
+
+.star {
+  border: none;
+  background: none;
+
+  font-size: 28px;
+
+  cursor: pointer;
+
+  padding: 0;
+
+  color: #999;
+}
+
+.star.selected {
+  color: #f5a623;
+}
+
+/* Submit */
+
+.submit-rating-button {
+  padding: 9px 18px;
+
+  border: none;
+  border-radius: 5px;
+
+  background-color: #333;
+  color: white;
+
+  cursor: pointer;
+}
+
+.submit-rating-button:hover {
+  opacity: 0.8;
+}
+
+.submit-rating-button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+/* All ratings */
+
+.rating-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px 0;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.rating-summary:last-child {
+  border-bottom: none;
+}
+
+.average-rating {
+  font-weight: bold;
+}
+
+.total-ratings {
+  color: #777;
+}
+
+/* Messages */
+
+.empty-message {
+  padding: 20px 0;
+  color: #777;
+}
+
+.error-message {
+  padding: 20px 0;
+  color: #c0392b;
+}
+.notification-badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 18px;
+  height: 18px;
+
+  margin-left: 3px;
+  padding: 2px 5px;
+
+  border-radius: 50%;
+
+  background-color: #d9534f;
+  color: white;
+
+  font-size: 11px;
+  font-weight: bold;
+}

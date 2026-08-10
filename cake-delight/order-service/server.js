@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const connectDB = require("./config/db");
 const orderRoute = require("./routes/orderRoute");
 const basketRoute = require("./routes/basketRoute");
@@ -7,6 +8,7 @@ const app = express();
 
 const PORT = 3002;
 const serviceUrl = `http://localhost:${PORT}`;
+app.use(cors());
 app.use(express.json());
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Order service running successfully" });

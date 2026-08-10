@@ -1,0 +1,179 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fffaf7;
+  color: #333;
+}
+
+/* Navbar */
+
+.navbar {
+  height: 70px;
+  padding: 0 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: white;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 25px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Cart */
+
+.cart-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 50px 30px;
+}
+
+.cart-container h1 {
+  margin-bottom: 30px;
+}
+
+/* Cart item */
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px;
+  margin-bottom: 15px;
+
+  background-color: white;
+
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+}
+
+.cart-item-info h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.cart-item-info p {
+  margin-bottom: 5px;
+}
+
+/* Quantity */
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-button {
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid #ccc;
+  background-color: white;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+}
+
+.quantity {
+  min-width: 25px;
+  text-align: center;
+}
+
+/* Remove */
+
+.remove-button {
+  padding: 8px 12px;
+
+  border: none;
+  border-radius: 5px;
+
+  background-color: #eee;
+
+  cursor: pointer;
+}
+
+/* Summary */
+
+.cart-summary {
+  margin-top: 30px;
+
+  padding: 25px;
+
+  background-color: white;
+
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+}
+
+.cart-total {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.checkout-button {
+  padding: 12px 25px;
+
+  border: none;
+  border-radius: 5px;
+
+  background-color: #333;
+  color: white;
+
+  cursor: pointer;
+}
+
+/* Empty / error */
+
+.empty-cart {
+  text-align: center;
+  padding: 40px;
+}
+
+.error-message {
+  text-align: center;
+  color: #c0392b;
+  padding: 30px;
+}
+.notification-badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 18px;
+  height: 18px;
+
+  margin-left: 3px;
+  padding: 2px 5px;
+
+  border-radius: 50%;
+
+  background-color: #d9534f;
+  color: white;
+
+  font-size: 11px;
+  font-weight: bold;
+}

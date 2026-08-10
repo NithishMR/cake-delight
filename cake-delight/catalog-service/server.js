@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const connectDB = require("./config/db");
 const cakeRoute = require("./routes/cakeRoute");
 
@@ -6,7 +7,7 @@ const app = express();
 
 const PORT = 3001;
 const serviceUrl = `http://localhost:${PORT}`;
-
+app.use(cors());
 app.use(express.json());
 connectDB();
 

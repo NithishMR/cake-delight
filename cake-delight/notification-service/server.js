@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const connectDB = require("./config/db");
 const {
   connectRabbitMQ,
@@ -11,6 +12,8 @@ const PORT = 3004;
 const serviceUrl = `http://localhost:${PORT}`;
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -28,8 +31,8 @@ app.use("/api/notifications", notificationRoute);
 const startServer = async () => {
   try {
     await connectDB();
-    // await connectRabbitMQ();
-    // await consumeOrderCompleted(NotificationModel);
+    await connectRabbitMQ();
+    await consumeOrderCompleted(NotificationModel);
     app.listen(PORT, () => {
       console.log(`Notification Service running on port ${PORT}`);
     });

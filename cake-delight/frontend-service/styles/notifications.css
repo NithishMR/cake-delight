@@ -1,0 +1,184 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fffaf7;
+  color: #333;
+}
+
+/* Navbar */
+
+.navbar {
+  height: 70px;
+  padding: 0 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: white;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 25px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333;
+}
+
+.navbar a:hover {
+  opacity: 0.7;
+}
+
+/* Main */
+
+.notifications-container {
+  max-width: 900px;
+  margin: 0 auto;
+
+  padding: 50px 30px;
+}
+
+/* Header */
+
+.notifications-header {
+  margin-bottom: 30px;
+}
+
+.notifications-header h1 {
+  margin-bottom: 8px;
+}
+
+.notifications-header p {
+  color: #777;
+}
+
+/* Notification */
+
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 20px;
+
+  margin-bottom: 12px;
+
+  background-color: white;
+
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+/* Unread notification */
+
+.notification.unread {
+  border-left: 4px solid #333;
+
+  background-color: #f8f8f8;
+}
+
+/* Notification content */
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-message {
+  font-size: 16px;
+  line-height: 1.5;
+
+  margin-bottom: 8px;
+}
+
+.notification-date {
+  font-size: 13px;
+  color: #777;
+}
+
+/* Delete */
+
+.delete-notification-button {
+  padding: 8px 12px;
+
+  border: none;
+  border-radius: 5px;
+
+  background-color: #eeeeee;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+.delete-notification-button:hover {
+  background-color: #dddddd;
+}
+
+/* Empty */
+
+.empty-notifications {
+  padding: 50px;
+
+  text-align: center;
+
+  background-color: white;
+
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+}
+
+.empty-notifications h2 {
+  margin-bottom: 10px;
+}
+
+.empty-notifications p {
+  color: #777;
+}
+
+/* Error */
+
+.error-message {
+  padding: 30px;
+
+  text-align: center;
+
+  color: #c0392b;
+}
+.notification-badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 18px;
+  height: 18px;
+
+  margin-left: 3px;
+  padding: 2px 5px;
+
+  border-radius: 50%;
+
+  background-color: #d9534f;
+  color: white;
+
+  font-size: 11px;
+  font-weight: bold;
+}
