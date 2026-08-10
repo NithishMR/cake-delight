@@ -1,0 +1,42 @@
+const express = require("express");
+const connectDB = require("./config/db");
+const {
+  connectRabbitMQ,
+  consumeOrderCompleted,
+} = require("./service/rabbitmq");
+const RatingModel = require("./model/Rating");
+const ratingRoute = require("./routes/ratingRoute");
+const app = express();
+
+const PORT = 3003;
+const serviceUrl = `http://localhost:${PORT}`;
+
+app.use(express.json());
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Rating service running successfully" });
+});
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    status: "UP",
+    service: "rating-service",
+  });
+});
+
+app.use("/api/ratings", ratingRoute);
+
+const startServer = async () => {
+  try {
+    await connectDB();
+    await connectRabbitMQ();
+    await consumeOrderCompleted(RatingModel);
+    app.listen(PORT, () => {
+      console.log(`Rating Service running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start Rating Service:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

@@ -1,6 +1,6 @@
 const BasketModel = require("../model/Basket");
 const OrderModel = require("../model/Order");
-// const catalogServiceUrl = "http://localhost:3001";
+//const catalogServiceUrl = "http://localhost:3001";
 const catalogServiceUrl = "http://catalog-service:3001";
 const basketController = {
   addToBasket: async (req, res) => {

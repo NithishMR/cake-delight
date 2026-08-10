@@ -12,6 +12,15 @@ services:
       - rabbitmq-service
     ports:
       - "3002:3002"
+
+  rating-service:
+    build: ./rating-service
+    depends_on:
+      - mongo-rating
+      - rabbitmq-service
+    ports:
+      - "3003:3003"
+
   mongo-catalog:
     image: mongo:latest
     volumes:
@@ -20,6 +29,10 @@ services:
     image: mongo:latest
     volumes:
       - mongo-order-data:/data/db
+  mongo-rating:
+    image: mongo:latest
+    volumes:
+      - mongo-rating-data:/data/db
   rabbitmq-service:
     image: rabbitmq:management
     ports:
@@ -28,3 +41,4 @@ services:
 volumes:
   mongo-catalog-data:
   mongo-order-data:
+  mongo-rating-data:

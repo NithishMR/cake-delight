@@ -101,7 +101,7 @@ const orderController = {
       }
 
       // Validate status
-      const validStatuses = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"];
+      const validStatuses = ["PENDING", "COMPLETED", "CANCELLED"];
 
       if (!validStatuses.includes(status)) {
         return res.status(400).json({

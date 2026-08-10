@@ -1,6 +1,8 @@
 const amqp = require("amqplib");
 
 const rabbitmqUrl = "amqp://rabbitmq-service:5672";
+// const rabbitmqUrl = "amqp://localhost:5672";
+const exchangeName = "order.events";
 
 let channel = null;
 
@@ -12,6 +14,10 @@ const connectRabbitMQ = async () => {
       const connection = await amqp.connect(rabbitmqUrl);
 
       channel = await connection.createChannel();
+
+      await channel.assertExchange(exchangeName, "fanout", {
+        durable: true,
+      });
 
       console.log("Connected to RabbitMQ");
 
@@ -31,12 +37,6 @@ const publishOrderCompleted = async (order) => {
     throw new Error("RabbitMQ channel is not initialized");
   }
 
-  const queueName = "order.completed";
-
-  await channel.assertQueue(queueName, {
-    durable: true,
-  });
-
   const message = {
     event: "order.completed",
     data: {
@@ -48,7 +48,7 @@ const publishOrderCompleted = async (order) => {
     },
   };
 
-  channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)), {
+  channel.publish(exchangeName, "", Buffer.from(JSON.stringify(message)), {
     persistent: true,
   });
 
