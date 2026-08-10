@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const MONGODB_URI = "mongodb://127.0.0.1:27017/catalog_db";
-//const MONGODB_URI = "mongodb://mongo-catalog:27017/catalog_db";
+const MONGODB_URI = "mongodb://127.0.0.1:27017/notification_db";
+//const MONGODB_URI = "mongodb://mongo-order:27017/order_db";
 const delayTime = 3000;
-let retries = 3;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function connectDB() {
+  let retries = 3;
   while (retries > 0) {
     try {
       await mongoose.connect(MONGODB_URI);

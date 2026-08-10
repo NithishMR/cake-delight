@@ -2,8 +2,9 @@ const amqp = require("amqplib");
 
 //const rabbitmqUrl = "amqp://rabbitmq-service:5672";
 const rabbitmqUrl = "amqp://localhost:5672";
+
 const exchangeName = "order.events";
-const queueName = "rating.order.completed";
+const queueName = "notification.order.completed";
 
 let channel = null;
 
@@ -39,7 +40,7 @@ const connectRabbitMQ = async () => {
   }
 };
 
-const consumeOrderCompleted = async (RatingModel) => {
+const consumeOrderCompleted = async (NotificationModel) => {
   if (!channel) {
     throw new Error("RabbitMQ channel is not initialized");
   }
@@ -53,30 +54,24 @@ const consumeOrderCompleted = async (RatingModel) => {
         return;
       }
 
-      const { customerId, items } = event.data;
+      console.log(
+        `Order completed event received for order ${event.data.orderId}`,
+      );
 
-      for (const item of items) {
-        await RatingModel.findOneAndUpdate(
-          {
-            cakeId: item.cakeId,
-            customerId: customerId,
-          },
-          {
-            $setOnInsert: {
-              cakeId: item.cakeId,
-              customerId: customerId,
-              rating: null,
-              status: "PENDING",
-            },
-          },
-          {
-            upsert: true,
-            new: true,
-          },
-        );
-      }
+      const { orderId, customerId } = event.data;
 
-      console.log(`Pending ratings created for order ${event.data.orderId}`);
+      await NotificationModel.create({
+        orderId: orderId,
+        customerId: customerId,
+        type: "ORDER_CONFIRMATION",
+        channel: "IN_APP",
+        message: `Your #order has been completed successfully.`,
+        deliveryStatus: "SENT",
+        isRead: false,
+        sentAt: new Date(),
+      });
+
+      console.log(`Notification created for order ${orderId}`);
 
       channel.ack(message);
     } catch (error) {

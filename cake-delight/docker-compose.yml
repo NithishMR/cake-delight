@@ -20,19 +20,29 @@ services:
       - rabbitmq-service
     ports:
       - "3003:3003"
-
+  notification-service:
+    build: ./notification-service
+    depends_on:
+      - mongo-notification
+      - rabbitmq-service
+    ports:
+      - "3004:3004"
   mongo-catalog:
-    image: mongo:latest
+    image: mongo:8
     volumes:
       - mongo-catalog-data:/data/db
   mongo-order:
-    image: mongo:latest
+    image: mongo:8
     volumes:
       - mongo-order-data:/data/db
   mongo-rating:
-    image: mongo:latest
+    image: mongo:8
     volumes:
       - mongo-rating-data:/data/db
+  mongo-notification:
+    image: mongo:8
+    volumes:
+      - mongo-notification-data:/data/db
   rabbitmq-service:
     image: rabbitmq:management
     ports:
@@ -42,3 +52,4 @@ volumes:
   mongo-catalog-data:
   mongo-order-data:
   mongo-rating-data:
+  mongo-notification-data:
