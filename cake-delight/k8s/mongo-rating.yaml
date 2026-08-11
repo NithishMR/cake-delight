@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-rating
+  namespace: cake-delight
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: mongo-rating
+
+  template:
+    metadata:
+      labels:
+        app: mongo-rating
+
+    spec:
+      containers:
+        - name: mongo-rating
+          image: mongo:8
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 27017
+
+          volumeMounts:
+            - name: mongo-rating-storage
+              mountPath: /data/db
+
+      volumes:
+        - name: mongo-rating-storage
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-rating
+  namespace: cake-delight
+
+spec:
+  selector:
+    app: mongo-rating
+
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+  type: ClusterIP

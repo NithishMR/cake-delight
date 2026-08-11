@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "http://192.168.49.2:32169";
 
 const API = {
   cakes: `${API_BASE_URL}/api/cakes`,

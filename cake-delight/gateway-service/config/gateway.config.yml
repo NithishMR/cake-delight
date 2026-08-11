@@ -7,27 +7,27 @@ admin:
 
 apiEndpoints:
   cakes:
-    host: localhost
+    host: "*"
     paths:
       - "/api/cakes*"
 
   basket:
-    host: localhost
+    host: "*"
     paths:
       - "/api/basket*"
 
   orders:
-    host: localhost
+    host: "*"
     paths:
       - "/api/order*"
 
   ratings:
-    host: localhost
+    host: "*"
     paths:
       - "/api/ratings*"
 
   notifications:
-    host: localhost
+    host: "*"
     paths:
       - "/api/notifications*"
 
