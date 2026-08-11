@@ -1,11 +1,8 @@
-const NOTIFICATION_SERVICE_URL = "http://localhost:3004";
 const CUSTOMER_ID = "C001";
 
 const updateNotificationBadge = async () => {
   try {
-    const response = await fetch(
-      `${NOTIFICATION_SERVICE_URL}/api/notifications/${CUSTOMER_ID}`,
-    );
+    const response = await fetch(`${API.notifications}/${CUSTOMER_ID}`);
 
     const data = await response.json();
 

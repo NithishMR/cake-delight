@@ -1,5 +1,3 @@
-const CATALOG_SERVICE_URL = "http://localhost:3001";
-
 const productList = document.getElementById("product-list");
 
 const nameFilter = document.getElementById("name-filter");
@@ -13,7 +11,7 @@ const clearFilterButton = document.getElementById("clear-filter-button");
 // Get all cakes
 const loadCakes = async () => {
   try {
-    const response = await fetch(`${CATALOG_SERVICE_URL}/api/cakes/`);
+    const response = await fetch(API.cakes);
 
     if (!response.ok) {
       throw new Error("Failed to fetch cakes");
@@ -59,9 +57,7 @@ const filterCakes = async () => {
   }
 
   try {
-    const response = await fetch(
-      `${CATALOG_SERVICE_URL}/api/cakes/search?${params.toString()}`,
-    );
+    const response = await fetch(`${API.cakes}/search?${params.toString()}`);
 
     if (!response.ok) {
       throw new Error("Failed to filter cakes");
@@ -162,11 +158,10 @@ const displayCakes = (cakes) => {
     }
   });
 };
-const ORDER_SERVICE_URL = "http://localhost:3002";
 
 const addToCart = async (cakeId, quantity) => {
   try {
-    const response = await fetch(`${ORDER_SERVICE_URL}/api/basket/items`, {
+    const response = await fetch(`${API.basket}/items`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

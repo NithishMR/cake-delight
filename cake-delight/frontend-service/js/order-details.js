@@ -1,5 +1,3 @@
-const ORDER_SERVICE_URL = "http://localhost:3002";
-
 const orderDetails = document.getElementById("order-details");
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -18,7 +16,7 @@ const loadOrder = async () => {
   }
 
   try {
-    const response = await fetch(`${ORDER_SERVICE_URL}/api/order/${orderId}`);
+    const response = await fetch(`${API.orders}/${orderId}`);
 
     const data = await response.json();
 
@@ -138,20 +136,17 @@ const completePayment = async (orderId) => {
   payButton.textContent = "Processing Payment...";
 
   try {
-    const response = await fetch(
-      `${ORDER_SERVICE_URL}/api/order/${orderId}/status`,
-      {
-        method: "PATCH",
+    const response = await fetch(`${API.orders}/${orderId}/status`, {
+      method: "PATCH",
 
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          status: "COMPLETED",
-        }),
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+
+      body: JSON.stringify({
+        status: "COMPLETED",
+      }),
+    });
 
     const data = await response.json();
 

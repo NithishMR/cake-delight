@@ -1,4 +1,17 @@
 services:
+  frontend:
+    build: ./frontend-service
+    ports:
+      - "5500:80"
+  api-gateway:
+    build: ./gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - catalog-service
+      - order-service
+      - rating-service
+      - notification-service
   catalog-service:
     build: ./catalog-service
     depends_on:

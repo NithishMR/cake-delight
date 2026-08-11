@@ -1,5 +1,3 @@
-const CATALOG_SERVICE_URL = "http://localhost:3001";
-
 const cakeDetails = document.getElementById("cake-details");
 
 // Get cake ID from URL
@@ -22,7 +20,7 @@ const loadCakeDetails = async () => {
   }
 
   try {
-    const response = await fetch(`${CATALOG_SERVICE_URL}/api/cakes/${cakeId}`);
+    const response = await fetch(`${API.cakes}/${cakeId}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch cake details");
@@ -106,11 +104,10 @@ const displayCake = (cake) => {
     });
   }
 };
-const ORDER_SERVICE_URL = "http://localhost:3002";
 
 const addToCart = async (cakeId, quantity) => {
   try {
-    const response = await fetch(`${ORDER_SERVICE_URL}/api/basket/items`, {
+    const response = await fetch(`${API.basket}/items`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

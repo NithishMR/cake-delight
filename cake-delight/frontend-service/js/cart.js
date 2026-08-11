@@ -1,11 +1,9 @@
-const ORDER_SERVICE_URL = "http://localhost:3002";
-
 const cartItems = document.getElementById("cart-items");
 const cartSummary = document.getElementById("cart-summary");
 
 const loadBasket = async () => {
   try {
-    const response = await fetch(`${ORDER_SERVICE_URL}/api/basket`);
+    const response = await fetch(API.basket);
 
     const data = await response.json();
 
@@ -148,20 +146,17 @@ const displayEmptyBasket = () => {
 
 const updateBasketItem = async (cakeId, quantity) => {
   try {
-    const response = await fetch(
-      `${ORDER_SERVICE_URL}/api/basket/items/${cakeId}`,
-      {
-        method: "POST",
+    const response = await fetch(`${API.basket}/items/${cakeId}`, {
+      method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          quantity: quantity,
-        }),
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+
+      body: JSON.stringify({
+        quantity: quantity,
+      }),
+    });
 
     const data = await response.json();
 
@@ -181,12 +176,9 @@ const updateBasketItem = async (cakeId, quantity) => {
 
 const removeBasketItem = async (cakeId) => {
   try {
-    const response = await fetch(
-      `${ORDER_SERVICE_URL}/api/basket/items/${cakeId}`,
-      {
-        method: "DELETE",
-      },
-    );
+    const response = await fetch(`${API.basket}/items/${cakeId}`, {
+      method: "DELETE",
+    });
 
     const data = await response.json();
 

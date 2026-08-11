@@ -8,9 +8,7 @@ const notificationsList = document.getElementById("notifications-list");
 
 const loadNotifications = async () => {
   try {
-    const response = await fetch(
-      `${NOTIFICATION_SERVICE_URL}/api/notifications/${CUSTOMER_ID}`,
-    );
+    const response = await fetch(`${API.notifications}/${CUSTOMER_ID}`);
 
     const data = await response.json();
 
@@ -147,7 +145,7 @@ const openNotification = async (notification) => {
 const markAsRead = async (notificationId) => {
   try {
     const response = await fetch(
-      `${NOTIFICATION_SERVICE_URL}/api/notifications/${notificationId}/read`,
+      `${API.notifications}/${notificationId}/read`,
       {
         method: "PATCH",
       },
@@ -175,12 +173,9 @@ const markAsRead = async (notificationId) => {
 
 const deleteNotification = async (notificationId) => {
   try {
-    const response = await fetch(
-      `${NOTIFICATION_SERVICE_URL}/api/notifications/${notificationId}`,
-      {
-        method: "DELETE",
-      },
-    );
+    const response = await fetch(`${API.notifications}/${notificationId}`, {
+      method: "DELETE",
+    });
 
     const data = await response.json();
 

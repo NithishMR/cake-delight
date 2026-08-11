@@ -1,10 +1,8 @@
-const ORDER_SERVICE_URL = "http://localhost:3002";
-
 const ordersList = document.getElementById("orders-list");
 
 const loadOrders = async () => {
   try {
-    const response = await fetch(`${ORDER_SERVICE_URL}/api/order`);
+    const response = await fetch(API.orders);
 
     const data = await response.json();
 

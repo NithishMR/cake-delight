@@ -1,10 +1,8 @@
-const ORDER_SERVICE_URL = "http://localhost:3002";
-
 const checkoutSummary = document.getElementById("checkout-summary");
 
 const loadBasket = async () => {
   try {
-    const response = await fetch(`${ORDER_SERVICE_URL}/api/basket`);
+    const response = await fetch(API.basket);
 
     const data = await response.json();
 
@@ -110,7 +108,7 @@ const checkout = async () => {
   placeOrderButton.textContent = "Placing Order...";
 
   try {
-    const response = await fetch(`${ORDER_SERVICE_URL}/api/order/checkout`, {
+    const response = await fetch(`${API.orders}/checkout`, {
       method: "POST",
     });
 

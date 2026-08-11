@@ -1,6 +1,3 @@
-const RATING_SERVICE_URL = "http://localhost:3003";
-const CATALOG_SERVICE_URL = "http://localhost:3001";
-
 const CUSTOMER_ID = "C001";
 
 const pendingRatingsContainer = document.getElementById("pending-ratings");
@@ -11,7 +8,7 @@ const allRatingsContainer = document.getElementById("all-ratings");
 
 const getCakeDetails = async (cakeId) => {
   try {
-    const response = await fetch(`${CATALOG_SERVICE_URL}/api/cakes/${cakeId}`);
+    const response = await fetch(`${API.cakes}/${cakeId}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch cake");
@@ -29,9 +26,7 @@ const getCakeDetails = async (cakeId) => {
 
 const loadPendingRatings = async () => {
   try {
-    const response = await fetch(
-      `${RATING_SERVICE_URL}/api/ratings/pending/${CUSTOMER_ID}`,
-    );
+    const response = await fetch(`${API.ratings}/pending/${CUSTOMER_ID}`);
 
     const data = await response.json();
 
@@ -180,7 +175,7 @@ const submitRating = async (cakeId, rating, submitButton) => {
   submitButton.textContent = "Submitting...";
 
   try {
-    const response = await fetch(`${RATING_SERVICE_URL}/api/ratings`, {
+    const response = await fetch(API.ratings, {
       method: "POST",
 
       headers: {
@@ -227,7 +222,7 @@ const submitRating = async (cakeId, rating, submitButton) => {
 
 const loadAllRatings = async () => {
   try {
-    const response = await fetch(`${RATING_SERVICE_URL}/api/ratings`);
+    const response = await fetch(API.ratings);
 
     const data = await response.json();
 
