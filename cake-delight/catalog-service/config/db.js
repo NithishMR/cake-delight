@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-
-//const MONGODB_URI = "mongodb://127.0.0.1:27017/catalog_db";
-const MONGODB_URI = "mongodb://mongo-catalog:27017/catalog_db";
+const config = require("./env");
+const MONGODB_URI = config.mongoUrl;
 const delayTime = 3000;
 let retries = 3;
 

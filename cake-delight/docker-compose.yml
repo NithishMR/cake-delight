@@ -14,12 +14,16 @@ services:
       - notification-service
   catalog-service:
     build: ./catalog-service
+    env_file:
+      - ./catalog-service/.env.docker
     depends_on:
       - mongo-catalog
     ports:
       - "3001:3001"
   order-service:
     build: ./order-service
+    env_file:
+      - ./order-service/.env.docker
     depends_on:
       - mongo-order
       - rabbitmq-service
@@ -28,6 +32,8 @@ services:
 
   rating-service:
     build: ./rating-service
+    env_file:
+      - ./rating-service/.env.docker
     depends_on:
       - mongo-rating
       - rabbitmq-service
@@ -35,6 +41,8 @@ services:
       - "3003:3003"
   notification-service:
     build: ./notification-service
+    env_file:
+      - ./notification-service/.env.docker
     depends_on:
       - mongo-notification
       - rabbitmq-service

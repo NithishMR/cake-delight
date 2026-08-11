@@ -1,7 +1,7 @@
 const RatingModel = require("../model/Rating");
 
 const ratingController = {
-  submitRating: async (req, res) => {
+  submitRating: async (req, res, next) => {
     try {
       const { cakeId, customerId, rating } = req.body;
 
@@ -44,14 +44,10 @@ const ratingController = {
         rating: existingRating,
       });
     } catch (error) {
-      console.error(error);
-
-      return res.status(500).json({
-        message: "Failed to submit rating",
-      });
+      next(error);
     }
   },
-  getPendingRatings: async (req, res) => {
+  getPendingRatings: async (req, res, next) => {
     try {
       const { customerId } = req.params;
 
@@ -64,14 +60,10 @@ const ratingController = {
         ratings: pendingRatings,
       });
     } catch (error) {
-      console.error("Error fetching pending ratings:", error);
-
-      return res.status(500).json({
-        message: "Failed to fetch pending ratings",
-      });
+      next(error);
     }
   },
-  getCakeRating: async (req, res) => {
+  getCakeRating: async (req, res, next) => {
     try {
       const { cakeId } = req.params;
 
@@ -104,14 +96,10 @@ const ratingController = {
         totalRatings: result[0].totalRatings,
       });
     } catch (error) {
-      console.error("Error fetching cake rating:", error);
-
-      return res.status(500).json({
-        message: "Failed to fetch cake rating",
-      });
+      next(error);
     }
   },
-  getAllCakeRatings: async (req, res) => {
+  getAllCakeRatings: async (req, res, next) => {
     try {
       const ratings = await RatingModel.aggregate([
         {
@@ -140,14 +128,10 @@ const ratingController = {
         ratings,
       });
     } catch (error) {
-      console.error("Error fetching all cake ratings:", error);
-
-      return res.status(500).json({
-        message: "Failed to fetch cake ratings",
-      });
+      next(error);
     }
   },
-  getCustomerRatings: async (req, res) => {
+  getCustomerRatings: async (req, res, next) => {
     try {
       const { customerId } = req.params;
 
@@ -160,11 +144,7 @@ const ratingController = {
         ratings,
       });
     } catch (error) {
-      console.error("Error fetching customer ratings:", error);
-
-      return res.status(500).json({
-        message: "Failed to fetch customer ratings",
-      });
+      next(error);
     }
   },
 };

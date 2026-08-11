@@ -2,7 +2,7 @@ const CakeModel = require("../model/Cake");
 const validateMongoId = require("../utils/validateMongoId");
 
 const cakeController = {
-  getAllCakes: async (req, res) => {
+  getAllCakes: async (req, res, next) => {
     try {
       const cakes = await CakeModel.find({});
 
@@ -10,14 +10,10 @@ const cakeController = {
         cakes,
       });
     } catch (error) {
-      console.error("Error fetching cakes:", error.message);
-
-      return res.status(500).json({
-        message: "Failed to fetch cakes",
-      });
+      next(error);
     }
   },
-  getCake: async (req, res) => {
+  getCake: async (req, res, next) => {
     try {
       const id = req.params.id;
       if (!validateMongoId(id)) {
@@ -29,13 +25,10 @@ const cakeController = {
       }
       return res.status(200).json(cake);
     } catch (error) {
-      console.error("Error fetching cake:", error.message);
-      return res.status(500).json({
-        message: "Failed to fetch cake",
-      });
+      next(error);
     }
   },
-  filterCake: async (req, res) => {
+  filterCake: async (req, res, next) => {
     try {
       const { name, category, minPrice, maxPrice } = req.query;
       const query = {};
@@ -88,10 +81,7 @@ const cakeController = {
       const cakes = await CakeModel.find(query);
       return res.status(200).json({ cakes });
     } catch (error) {
-      console.error("Error filtering cakes:", error.message);
-      return res.status(500).json({
-        message: "Failed to filter cakes",
-      });
+      next(error);
     }
   },
 };

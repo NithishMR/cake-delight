@@ -1,7 +1,7 @@
 const amqp = require("amqplib");
+const config = require("../config/env");
 
-const rabbitmqUrl = "amqp://rabbitmq-service:5672";
-//const rabbitmqUrl = "amqp://localhost:5672";
+const rabbitmqUrl = config.rabbitmqUrl;
 const exchangeName = "order.events";
 const queueName = "rating.order.completed";
 

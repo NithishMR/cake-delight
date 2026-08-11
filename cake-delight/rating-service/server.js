@@ -7,13 +7,17 @@ const {
 } = require("./service/rabbitmq");
 const RatingModel = require("./model/Rating");
 const ratingRoute = require("./routes/ratingRoute");
+const logger = require("./middlewares/logger");
+const errorHandler = require("./middlewares/errorHandler");
+const config = require("./config/env");
 const app = express();
 
-const PORT = 3003;
+const PORT = config.port;
 const serviceUrl = `http://localhost:${PORT}`;
 
 app.use(cors());
 app.use(express.json());
+app.use(logger);
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Rating service running successfully" });
 });
@@ -26,7 +30,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/ratings", ratingRoute);
-
+app.use(errorHandler);
 const startServer = async () => {
   try {
     await connectDB();

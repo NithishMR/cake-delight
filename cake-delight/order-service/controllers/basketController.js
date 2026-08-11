@@ -1,9 +1,9 @@
+const config = require("../config/env");
 const BasketModel = require("../model/Basket");
 const OrderModel = require("../model/Order");
-//const catalogServiceUrl = "http://localhost:3001";
-const catalogServiceUrl = "http://catalog-service:3001";
+const catalogServiceUrl = config.catalogServiceUrl;
 const basketController = {
-  addToBasket: async (req, res) => {
+  addToBasket: async (req, res, next) => {
     const { cakeId, quantity } = req.body;
 
     if (!cakeId || !quantity || quantity < 1) {
@@ -69,14 +69,10 @@ const basketController = {
         basket,
       });
     } catch (error) {
-      console.error("Error adding cake to basket:", error);
-
-      return res.status(500).json({
-        message: "Failed to add cake to basket",
-      });
+      next(error);
     }
   },
-  getBasket: async (req, res) => {
+  getBasket: async (req, res, next) => {
     try {
       const customerId = "C001";
 
@@ -91,14 +87,10 @@ const basketController = {
         basket,
       });
     } catch (error) {
-      console.error("Error fetching basket:", error);
-
-      return res.status(500).json({
-        message: "Failed to fetch basket",
-      });
+      next(error);
     }
   },
-  updateBasketItem: async (req, res) => {
+  updateBasketItem: async (req, res, next) => {
     const { cakeId } = req.params;
     const { quantity } = req.body;
 
@@ -135,14 +127,10 @@ const basketController = {
         basket,
       });
     } catch (error) {
-      console.error("Error updating basket item:", error);
-
-      return res.status(500).json({
-        message: "Failed to update basket item",
-      });
+      next(error);
     }
   },
-  removeFromBasket: async (req, res) => {
+  removeFromBasket: async (req, res, next) => {
     const { cakeId } = req.params;
 
     try {
@@ -180,11 +168,7 @@ const basketController = {
         basket,
       });
     } catch (error) {
-      console.error("Error removing cake from basket:", error);
-
-      return res.status(500).json({
-        message: "Failed to remove cake from basket",
-      });
+      next(error);
     }
   },
 };

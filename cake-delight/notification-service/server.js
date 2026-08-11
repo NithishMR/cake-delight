@@ -7,15 +7,17 @@ const {
 } = require("./services/rabbitmq");
 const NotificationModel = require("./model/Notification");
 const notificationRoute = require("./routes/notificationRoute");
-
-const PORT = 3004;
+const logger = require("./middlewares/logger");
+const errorHandler = require("./middlewares/errorHandler");
+const config = require("./config/env");
+const PORT = config.port;
 const serviceUrl = `http://localhost:${PORT}`;
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+app.use(logger);
 app.get("/", (req, res) => {
   res
     .status(200)
@@ -28,6 +30,8 @@ app.get("/api/health", (req, res) => {
   });
 });
 app.use("/api/notifications", notificationRoute);
+
+app.use(errorHandler);
 const startServer = async () => {
   try {
     await connectDB();

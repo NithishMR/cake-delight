@@ -3,7 +3,7 @@ const OrderModel = require("../model/Order");
 const { publishOrderCompleted } = require("../services/rabbitmq");
 
 const orderController = {
-  checkout: async (req, res) => {
+  checkout: async (req, res, next) => {
     try {
       const customerId = "C001";
       const basket = await BasketModel.findOne({ customerId });
@@ -38,14 +38,10 @@ const orderController = {
         order,
       });
     } catch (error) {
-      console.error("Error during checkout:", error);
-
-      return res.status(500).json({
-        message: "Failed to create order",
-      });
+      next(error);
     }
   },
-  getOrder: async (req, res) => {
+  getOrder: async (req, res, next) => {
     try {
       const { orderId } = req.params;
 
@@ -61,14 +57,10 @@ const orderController = {
         order,
       });
     } catch (error) {
-      console.error("Error fetching order:", error);
-
-      return res.status(500).json({
-        message: "Failed to fetch order",
-      });
+      next(error);
     }
   },
-  getOrders: async (req, res) => {
+  getOrders: async (req, res, next) => {
     try {
       const customerId = "C001";
 
@@ -80,14 +72,10 @@ const orderController = {
         orders,
       });
     } catch (error) {
-      console.error("Error fetching orders:", error);
-
-      return res.status(500).json({
-        message: "Failed to fetch orders",
-      });
+      next(error);
     }
   },
-  updateOrderStatus: async (req, res) => {
+  updateOrderStatus: async (req, res, next) => {
     const { orderId } = req.params;
     const { status } = req.body;
 
@@ -140,11 +128,7 @@ const orderController = {
         order,
       });
     } catch (error) {
-      console.error("Error updating order status:", error);
-
-      return res.status(500).json({
-        message: "Failed to update order status",
-      });
+      next(error);
     }
   },
 };

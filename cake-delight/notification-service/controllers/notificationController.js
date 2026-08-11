@@ -1,7 +1,7 @@
 const NotificationModel = require("../model/Notification");
 
 const notificationController = {
-  getNotification: async (req, res) => {
+  getNotification: async (req, res, next) => {
     try {
       const { customerId } = req.params;
       const notifications = await NotificationModel.find({
@@ -11,14 +11,10 @@ const notificationController = {
         notifications,
       });
     } catch (error) {
-      console.error("Error fetching notifications:", error);
-
-      res.status(500).json({
-        message: "Failed to fetch notifications",
-      });
+      next(error);
     }
   },
-  markAsRead: async (req, res) => {
+  markAsRead: async (req, res, next) => {
     try {
       const { notificationId } = req.params;
 
@@ -46,14 +42,10 @@ const notificationController = {
         notification,
       });
     } catch (error) {
-      console.error("Error marking notification as read:", error);
-
-      res.status(500).json({
-        message: "Failed to mark notification as read",
-      });
+      next(error);
     }
   },
-  deleteNotification: async (req, res) => {
+  deleteNotification: async (req, res, next) => {
     try {
       const { notificationId } = req.params;
 
@@ -70,11 +62,7 @@ const notificationController = {
         message: "Notification deleted successfully",
       });
     } catch (error) {
-      console.error("Error deleting notification:", error);
-
-      res.status(500).json({
-        message: "Failed to delete notification",
-      });
+      next(error);
     }
   },
 };
