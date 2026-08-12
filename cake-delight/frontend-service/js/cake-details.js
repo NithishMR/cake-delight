@@ -46,8 +46,12 @@ const displayCake = (cake) => {
   cakeDetails.innerHTML = `
         <div class="cake-details-card">
 
-            <div class="image-placeholder">
-                Cake Image
+            <div class="image-container">
+                <img
+                    src="${cake.imageReference}"
+                    alt="${cake.name}"
+                    class="cake-image"
+                >
             </div>
 
             <h1>
