@@ -96,8 +96,12 @@ const displayCakes = (cakes) => {
     card.className = "product-card";
 
     card.innerHTML = `
-            <div class="image-placeholder">
-                Cake Image
+            <div class="image-container">
+                <img 
+                  src="${cake.imageUrl}" 
+                  alt="${cake.name}"
+                  class="cake-image"
+              >
             </div>
 
             <h2>${cake.name}</h2>
