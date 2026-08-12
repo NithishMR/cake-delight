@@ -53,6 +53,7 @@ echo "Applying Kubernetes manifests"
 echo "=========================================="
 
 kubectl apply -f k8s/
+kubectl rollout restart deployment/frontend -n cake-delight
 
 echo ""
 echo "=========================================="
