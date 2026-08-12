@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-catalog
+  namespace: cake-delight
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: mongo-catalog
+
+  template:
+    metadata:
+      labels:
+        app: mongo-catalog
+
+    spec:
+      containers:
+        - name: mongo-catalog
+          image: mongo:8
+
+          ports:
+            - containerPort: 27017
+
+          volumeMounts:
+            - name: mongo-catalog-storage
+              mountPath: /data/db
+
+      volumes:
+        - name: mongo-catalog-storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-catalog
+  namespace: cake-delight
+
+spec:
+  selector:
+    app: mongo-catalog
+
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: cake-delight
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: api-gateway
+
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+
+    spec:
+      containers:
+        - name: api-gateway
+          image: cake-delight-api-gateway:latest
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8080
+
+          volumeMounts:
+            - name: gateway-config
+              mountPath: /app/config/gateway.config.yml
+              subPath: gateway.config.yml
+
+      volumes:
+        - name: gateway-config
+          configMap:
+            name: gateway-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: cake-delight
+
+spec:
+  selector:
+    app: api-gateway
+
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+  type: NodePort

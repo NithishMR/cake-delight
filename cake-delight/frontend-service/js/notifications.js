@@ -1,5 +1,3 @@
-const NOTIFICATION_SERVICE_URL = "http://localhost:3004";
-
 const CUSTOMER_ID = "C001";
 
 const notificationsList = document.getElementById("notifications-list");
@@ -137,7 +135,7 @@ const openNotification = async (notification) => {
    * corresponding order.
    */
 
-  window.location.href = `order-details.html?id=${notification.orderId}`;
+  window.location.href = `notification-details.html?id=${notification._id}`;
 };
 
 // Mark notification as read

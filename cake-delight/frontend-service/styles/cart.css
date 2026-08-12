@@ -1,3 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap");
+
+:root {
+  --bg-cream: #faf8f5;
+  --surface-white: #ffffff;
+  --text-main: #2c221e;
+  --text-muted: #7a6b65;
+  --accent-coral: #e07a5f;
+  --accent-hover: #c86548;
+  --border-warm: #efece6;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,50 +17,69 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #fffaf7;
-  color: #333;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background-color: var(--bg-cream);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Navbar */
 
 .navbar {
-  height: 70px;
-  padding: 0 50px;
-
+  height: 80px;
+  padding: 0 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  background-color: white;
-  border-bottom: 1px solid #eeeeee;
+  background-color: var(--surface-white);
+  border-bottom: 1px solid var(--border-warm);
+  box-shadow: 0 2px 8px rgba(44, 34, 30, 0.02);
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
+  font-family: "Playfair Display", serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
 }
 
 .navbar nav {
   display: flex;
-  gap: 25px;
+  gap: 30px;
+  align-items: center;
 }
 
 .navbar a {
   text-decoration: none;
-  color: #333;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navbar a:hover {
+  color: var(--accent-coral);
 }
 
 /* Cart */
 
 .cart-container {
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 50px 30px;
+  width: 100%;
 }
 
 .cart-container h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-main);
   margin-bottom: 30px;
+  letter-spacing: -0.5px;
 }
 
 /* Cart item */
@@ -57,23 +88,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 20px;
-  margin-bottom: 15px;
-
-  background-color: white;
-
-  border: 1px solid #eeeeee;
-  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 16px;
+  background-color: var(--surface-white);
+  border: 1px solid var(--border-warm);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(44, 34, 30, 0.02);
 }
 
 .cart-item-info h2 {
+  font-family: "Playfair Display", serif;
   font-size: 20px;
-  margin-bottom: 8px;
+  color: var(--text-main);
+  margin-bottom: 6px;
 }
 
 .cart-item-info p {
-  margin-bottom: 5px;
+  margin-bottom: 4px;
+  color: var(--text-muted);
+  font-size: 14px;
 }
 
 /* Quantity */
@@ -81,99 +114,149 @@ body {
 .quantity-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  background-color: var(--bg-cream);
+  padding: 6px 12px;
+  border-radius: 50px;
+  border: 1px solid var(--border-warm);
 }
 
 .quantity-button {
-  width: 32px;
-  height: 32px;
-
-  border: 1px solid #ccc;
-  background-color: white;
-
-  border-radius: 5px;
-
+  width: 28px;
+  height: 28px;
+  border: none;
+  background-color: var(--surface-white);
+  color: var(--text-main);
+  border-radius: 50%;
   cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(44, 34, 30, 0.04);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.quantity-button:hover {
+  background-color: var(--accent-coral);
+  color: white;
 }
 
 .quantity {
-  min-width: 25px;
+  min-width: 20px;
   text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-main);
 }
 
 /* Remove */
 
 .remove-button {
-  padding: 8px 12px;
-
+  padding: 10px 16px;
   border: none;
-  border-radius: 5px;
-
-  background-color: #eee;
-
+  border-radius: 50px;
+  background-color: #f5ebe6;
+  color: #b45332;
   cursor: pointer;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  transition: background-color 0.2s ease;
+}
+
+.remove-button:hover {
+  background-color: #eedbd3;
 }
 
 /* Summary */
 
 .cart-summary {
   margin-top: 30px;
-
-  padding: 25px;
-
-  background-color: white;
-
-  border: 1px solid #eeeeee;
-  border-radius: 8px;
+  padding: 28px;
+  background-color: var(--surface-white);
+  border: 1px solid var(--border-warm);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(44, 34, 30, 0.02);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .cart-total {
-  font-size: 22px;
-  font-weight: bold;
+  font-family: "Playfair Display", serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-main);
   margin-bottom: 20px;
 }
 
 .checkout-button {
-  padding: 12px 25px;
-
+  padding: 14px 32px;
   border: none;
-  border-radius: 5px;
-
-  background-color: #333;
+  border-radius: 50px;
+  background-color: var(--accent-coral);
   color: white;
-
   cursor: pointer;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 4px 14px rgba(224, 122, 95, 0.3);
+  transition: all 0.2s ease;
+}
+
+.checkout-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(224, 122, 95, 0.4);
 }
 
 /* Empty / error */
 
 .empty-cart {
   text-align: center;
-  padding: 40px;
+  padding: 60px 20px;
+  background-color: var(--surface-white);
+  border: 1px solid var(--border-warm);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(44, 34, 30, 0.02);
+}
+
+.empty-cart h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 24px;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.empty-cart p {
+  color: var(--text-muted);
+  font-size: 15px;
 }
 
 .error-message {
   text-align: center;
-  color: #c0392b;
-  padding: 30px;
+  color: var(--accent-coral);
+  padding: 40px;
+  font-weight: 500;
+  font-size: 16px;
 }
+
+/* Notification Badge */
+
 .notification-badge {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
   min-width: 18px;
   height: 18px;
-
   margin-left: 3px;
   padding: 2px 5px;
-
   border-radius: 50%;
-
-  background-color: #d9534f;
+  background-color: var(--accent-coral);
   color: white;
-
   font-size: 11px;
   font-weight: bold;
 }

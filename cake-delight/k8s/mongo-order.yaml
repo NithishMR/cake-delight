@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-order
+  namespace: cake-delight
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: mongo-order
+
+  template:
+    metadata:
+      labels:
+        app: mongo-order
+
+    spec:
+      containers:
+        - name: mongo-order
+          image: mongo:8
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 27017
+
+          volumeMounts:
+            - name: mongo-order-storage
+              mountPath: /data/db
+
+      volumes:
+        - name: mongo-order-storage
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-order
+  namespace: cake-delight
+
+spec:
+  selector:
+    app: mongo-order
+
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+  type: ClusterIP
