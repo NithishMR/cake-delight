@@ -1,19 +1,22 @@
 const RatingModel = require("../model/Rating");
-
+const validateMongoId = require("../utils/validateMongoId");
 const ratingController = {
   submitRating: async (req, res, next) => {
     try {
       const { cakeId, customerId, rating } = req.body;
-
       if (!cakeId || !customerId || rating === undefined) {
         return res.status(400).json({
           message: "cakeId, customerId and rating are required",
         });
       }
-
-      if (rating < 1 || rating > 5) {
+      if (!validateMongoId(cakeId)) {
         return res.status(400).json({
-          message: "Rating must be between 1 and 5",
+          message: "Invalid cake ID",
+        });
+      }
+      if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+        return res.status(400).json({
+          message: "Rating must be an integer between 1 and 5",
         });
       }
 
@@ -66,7 +69,11 @@ const ratingController = {
   getCakeRating: async (req, res, next) => {
     try {
       const { cakeId } = req.params;
-
+      if (!validateMongoId(cakeId)) {
+        return res.status(400).json({
+          message: "Invalid cake ID",
+        });
+      }
       const result = await RatingModel.aggregate([
         {
           $match: {

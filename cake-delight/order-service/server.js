@@ -10,7 +10,7 @@ const config = require("./config/env");
 const app = express();
 
 const PORT = config.port;
-const serviceUrl = `http://localhost:${PORT}`;
+
 app.use(cors());
 app.use(express.json());
 app.use(logger);

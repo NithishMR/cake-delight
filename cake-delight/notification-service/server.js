@@ -11,7 +11,6 @@ const logger = require("./middlewares/logger");
 const errorHandler = require("./middlewares/errorHandler");
 const config = require("./config/env");
 const PORT = config.port;
-const serviceUrl = `http://localhost:${PORT}`;
 
 const app = express();
 

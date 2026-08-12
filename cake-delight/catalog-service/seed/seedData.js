@@ -5,7 +5,8 @@ const seedCakes = [
     category: "Birthday",
     price: 900,
     available: true,
-    imageReference: "chocolate-truffle.jpg",
+    imageReference:
+      "https://images.unsplash.com/photo-1621424093521-eec9a43df158?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Red Velvet Cake",
@@ -13,7 +14,8 @@ const seedCakes = [
     category: "Birthday",
     price: 850,
     available: true,
-    imageReference: "red-velvet.jpg",
+    imageReference:
+      "https://plus.unsplash.com/premium_photo-1713447395823-2e0b40b75a89?q=80&w=382&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Black Forest Cake",
@@ -21,7 +23,8 @@ const seedCakes = [
     category: "Classic",
     price: 750,
     available: true,
-    imageReference: "black-forest.jpg",
+    imageReference:
+      "https://images.unsplash.com/photo-1605807646983-377bc5a76493?q=80&w=724&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Vanilla Celebration Cake",
@@ -29,7 +32,8 @@ const seedCakes = [
     category: "Birthday",
     price: 650,
     available: true,
-    imageReference: "vanilla-celebration.jpg",
+    imageReference:
+      "https://plus.unsplash.com/premium_photo-1663839331055-d0c9bcb2929f?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Belgian Chocolate Cake",
@@ -37,7 +41,8 @@ const seedCakes = [
     category: "Premium",
     price: 1400,
     available: true,
-    imageReference: "belgian-chocolate.jpg",
+    imageReference:
+      "https://images.unsplash.com/photo-1602351447937-745cb720612f?q=80&w=386&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Butterscotch Cake",
@@ -45,7 +50,8 @@ const seedCakes = [
     category: "Classic",
     price: 800,
     available: true,
-    imageReference: "butterscotch.jpg",
+    imageReference:
+      "https://images.unsplash.com/photo-1542826438-bd32f43d626f?q=80&w=992&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Strawberry Cream Cake",
@@ -53,7 +59,8 @@ const seedCakes = [
     category: "Anniversary",
     price: 1000,
     available: true,
-    imageReference: "strawberry-cream.jpg",
+    imageReference:
+      "https://plus.unsplash.com/premium_photo-1690214491960-d447e38d0bd0?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Wedding Fruit Cake",
@@ -62,7 +69,8 @@ const seedCakes = [
     category: "Wedding",
     price: 2200,
     available: true,
-    imageReference: "wedding-fruit.jpg",
+    imageReference:
+      "https://images.unsplash.com/photo-1623428454614-abaf00244e52?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Coffee Mocha Cake",
@@ -70,7 +78,8 @@ const seedCakes = [
     category: "Premium",
     price: 1200,
     available: false,
-    imageReference: "coffee-mocha.jpg",
+    imageReference:
+      "https://images.unsplash.com/photo-1697320777464-4db89a223861?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Pineapple Cake",
@@ -78,7 +87,8 @@ const seedCakes = [
     category: "Classic",
     price: 700,
     available: true,
-    imageReference: "pineapple.jpg",
+    imageReference:
+      "https://images.unsplash.com/photo-1628505048571-327399c9324c?q=80&w=529&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
 

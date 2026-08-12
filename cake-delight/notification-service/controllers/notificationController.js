@@ -1,4 +1,5 @@
 const NotificationModel = require("../model/Notification");
+const validateMongoId = require("../utils/validateMongoId");
 
 const notificationController = {
   getNotification: async (req, res, next) => {
@@ -17,7 +18,11 @@ const notificationController = {
   markAsRead: async (req, res, next) => {
     try {
       const { notificationId } = req.params;
-
+      if (!validateMongoId(notificationId)) {
+        return res.status(400).json({
+          message: "Invalid notification ID",
+        });
+      }
       const notification = await NotificationModel.findByIdAndUpdate(
         notificationId,
         {
@@ -48,7 +53,11 @@ const notificationController = {
   deleteNotification: async (req, res, next) => {
     try {
       const { notificationId } = req.params;
-
+      if (!validateMongoId(notificationId)) {
+        return res.status(400).json({
+          message: "Invalid notification ID",
+        });
+      }
       const notification =
         await NotificationModel.findByIdAndDelete(notificationId);
 

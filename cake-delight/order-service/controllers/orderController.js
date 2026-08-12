@@ -1,7 +1,7 @@
 const BasketModel = require("../model/Basket");
 const OrderModel = require("../model/Order");
 const { publishOrderCompleted } = require("../services/rabbitmq");
-
+const validateMongoId = require("../utils/validateMongoId");
 const orderController = {
   checkout: async (req, res, next) => {
     try {
@@ -44,7 +44,11 @@ const orderController = {
   getOrder: async (req, res, next) => {
     try {
       const { orderId } = req.params;
-
+      if (!validateMongoId(orderId)) {
+        return res.status(400).json({
+          message: "Invalid order ID",
+        });
+      }
       const order = await OrderModel.findById(orderId);
 
       if (!order) {
@@ -80,6 +84,11 @@ const orderController = {
     const { status } = req.body;
 
     try {
+      if (!validateMongoId(orderId)) {
+        return res.status(400).json({
+          message: "Invalid order ID",
+        });
+      }
       const order = await OrderModel.findById(orderId);
 
       if (!order) {
@@ -102,7 +111,6 @@ const orderController = {
 
       const allowedTransitions = {
         PENDING: ["COMPLETED", "CANCELLED"],
-        CONFIRMED: [],
         COMPLETED: [],
         CANCELLED: [],
       };

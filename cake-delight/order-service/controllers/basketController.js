@@ -6,7 +6,7 @@ const basketController = {
   addToBasket: async (req, res, next) => {
     const { cakeId, quantity } = req.body;
 
-    if (!cakeId || !quantity || quantity < 1) {
+    if (!cakeId || !Number.isInteger(quantity) || quantity < 1) {
       return res.status(400).json({
         message: "cakeId and a valid quantity are required",
       });
@@ -94,7 +94,7 @@ const basketController = {
     const { cakeId } = req.params;
     const { quantity } = req.body;
 
-    if (!quantity || quantity < 1) {
+    if (!Number.isInteger(quantity) || quantity < 1) {
       return res.status(400).json({
         message: "A valid quantity is required",
       });

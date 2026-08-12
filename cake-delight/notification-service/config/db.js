@@ -26,8 +26,7 @@ async function connectDB() {
     }
   }
 
-  console.error("Failed to connect to MongoDB after 3 attempts");
-  return;
+  throw new Error("Failed to connect to MongoDB after 3 attempts");
 }
 
 module.exports = connectDB;

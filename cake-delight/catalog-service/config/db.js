@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const config = require("./env");
 const MONGODB_URI = config.mongoUrl;
 const delayTime = 3000;
-let retries = 3;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function connectDB() {
+  let retries = 3;
   while (retries > 0) {
     try {
       await mongoose.connect(MONGODB_URI);
@@ -25,8 +25,7 @@ async function connectDB() {
     }
   }
 
-  console.error("Failed to connect to MongoDB after 3 attempts");
-  return;
+  throw new Error("Failed to connect to MongoDB after 3 attempts");
 }
 
 module.exports = connectDB;
