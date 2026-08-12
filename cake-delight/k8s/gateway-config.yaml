@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-config
+  namespace: cake-delight
+
+data:
+  gateway.config.yml: |
+    http:
+      port: 8080
+
+    admin:
+      port: 9876
+      host: localhost
+
+    apiEndpoints:
+      cakes:
+        host: "*"
+        paths:
+          - "/api/cakes*"
+
+      basket:
+        host: "*"
+        paths:
+          - "/api/basket*"
+
+      orders:
+        host: "*"
+        paths:
+          - "/api/order*"
+
+      ratings:
+        host: "*"
+        paths:
+          - "/api/ratings*"
+
+      notifications:
+        host: "*"
+        paths:
+          - "/api/notifications*"
+
+    serviceEndpoints:
+      catalogService:
+        url: "http://catalog-service:3001"
+
+      orderService:
+        url: "http://order-service:3002"
+
+      ratingService:
+        url: "http://rating-service:3003"
+
+      notificationService:
+        url: "http://notification-service:3004"
+
+    policies:
+      - cors
+      - log
+      - proxy
+
+    pipelines:
+      cakesPipeline:
+        apiEndpoints:
+          - cakes
+
+        policies:
+          - cors:
+              - action:
+                  origin: "*"
+          - proxy:
+              - action:
+                  serviceEndpoint: catalogService
+                  changeOrigin: true
+
+      basketPipeline:
+        apiEndpoints:
+          - basket
+
+        policies:
+          - cors:
+              - action:
+                  origin: "*"
+          - proxy:
+              - action:
+                  serviceEndpoint: orderService
+                  changeOrigin: true
+
+      ordersPipeline:
+        apiEndpoints:
+          - orders
+
+        policies:
+          - cors:
+              - action:
+                  origin: "*"
+          - proxy:
+              - action:
+                  serviceEndpoint: orderService
+                  changeOrigin: true
+
+      ratingsPipeline:
+        apiEndpoints:
+          - ratings
+
+        policies:
+          - cors:
+              - action:
+                  origin: "*"
+          - proxy:
+              - action:
+                  serviceEndpoint: ratingService
+                  changeOrigin: true
+
+      notificationsPipeline:
+        apiEndpoints:
+          - notifications
+
+        policies:
+          - cors:
+              - action:
+                  origin: "*"
+          - proxy:
+              - action:
+                  serviceEndpoint: notificationService
+                  changeOrigin: true
