@@ -48,7 +48,7 @@ const displayCake = (cake) => {
 
             <div class="image-container">
                 <img
-                    src="${cake.imageUrl}"
+                    src="${cake.imageReference}"
                     alt="${cake.name}"
                     class="cake-image"
                 >

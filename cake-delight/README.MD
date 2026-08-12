@@ -2,7 +2,7 @@
 
 Cake Delight is a microservices-based cake ordering application built as a capstone project. The application provides a complete flow for browsing cakes, managing a basket, placing orders, completing payment, receiving notifications, and submitting ratings.
 
-The project can be run locally using Docker Compose or deployed to a local Kubernetes cluster using Minikube.
+The project can be run / deployed to a local Kubernetes cluster using Minikube.
 
 ---
 
@@ -82,14 +82,13 @@ The main components are:
 - Submit a 1-5 star rating
 - View pending ratings
 - View completed customer ratings
-- View average rating for a cake
 - View ratings for all cakes
 
 ### Notifications
 
 - Automatically create an in-app notification when an order is completed
 - View customer notifications
-- Mark notifications as read
+- Mark notifications as read when user clicks it
 - Delete notifications
 
 ---
@@ -106,18 +105,18 @@ The main components are:
                          |  API Gateway  |
                          +-------+-------+
                                  |
-              +------------------+------------------+
-              |                  |                  |
-              v                  v                  v
-       +-------------+    +-------------+    +-------------+
-       |   Catalog   |    |    Order    |    |   Rating    |
-       |   Service   |    |   Service   |    |   Service   |
-       +------+------+    +------+------+    +------+------+
-              |                  |                  |
-              v                  v                  v
-       +-------------+    +-------------+    +-------------+
-       |Mongo Catalog|    | Mongo Order |    | Mongo Rating|
-       +-------------+    +-------------+    +-------------+
+              +------------------+------------------+-----------------
+              |                  |                  |                |
+              v                  v                  v                v
+       +-------------+    +-------------+    +-------------+  +-------------+
+       |   Catalog   |    |    Order    |    |   Rating    |  | Notification|
+       |   Service   |    |   Service   |    |   Service   |  |   Service   |
+       +------+------+    +------+------+    +------+------+  +------+------+
+              |                  |                  |                |
+              v                  v                  v                v
+       +-------------+    +-------------+    +-------------+   +------------------+
+       |Mongo Catalog|    | Mongo Order |    | Mongo Rating|   |Mongo Notification|
+       +-------------+    +-------------+    +-------------+   +------------------+
                                  |
                                  | order.completed
                                  v
@@ -157,7 +156,6 @@ The API Gateway exposes a single API entry point to the frontend. Backend servic
 | RabbitMQ | Asynchronous messaging |
 | Express Gateway | API Gateway |
 | Docker | Containerization |
-| Docker Compose | Local multi-container deployment |
 | Kubernetes | Container orchestration |
 | Minikube | Local Kubernetes cluster |
 | kubectl | Kubernetes management |
@@ -198,7 +196,6 @@ cake-delight/
 │
 ├── deploy.sh
 ├── cleanup.sh
-├── docker-compose.yml
 └── README.md
 ```
 
@@ -208,17 +205,13 @@ cake-delight/
 
 The following tools are required for the Kubernetes deployment:
 
-- Git
 - Docker
 - Minikube
 - kubectl
 
-Make sure Docker is running before starting Minikube.
-
 Verify the tools:
 
 ```bash
-git --version
 docker --version
 minikube version
 kubectl version --client
@@ -230,19 +223,10 @@ kubectl version --client
 
 The repository contains a `deploy.sh` script that automates the Kubernetes deployment.
 
-## 1. Clone the repository
+## 1. Extract the Zip file and move to the root directory
 
-Clone the repository first:
 
-```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-```
 
-Then enter the project directory:
-
-```bash
-cd cake-delight
-```
 
 > **Important:** `./deploy.sh` must be executed from the **root directory of the project**, where `deploy.sh` is located.
 
@@ -405,34 +389,6 @@ kubectl get pvc -n cake-delight
 ```
 
 The existing deployments and persistent volumes can be used again without running the entire setup process.
-
----
-
-# Docker Compose Setup
-
-Docker Compose can also be used to run the application locally.
-
-From the project root, where `docker-compose.yml` is located:
-
-```bash
-docker compose up --build
-```
-
-This builds and starts the application containers and supporting services.
-
-To stop the Compose deployment:
-
-```bash
-docker compose down
-```
-
-To stop and remove the containers while preserving Docker volumes:
-
-```bash
-docker compose down
-```
-
-If the project uses named volumes, the database data remains available until those volumes are explicitly removed.
 
 ---
 
@@ -803,11 +759,20 @@ Orders contain the customer, purchased items, total amount, status, and completi
 The main order lifecycle is:
 
 ```text
-PENDING
-   |
-   +----> COMPLETED
-   |
-   +----> CANCELLED
+Order
+├── _id
+├── customerId
+├── items[]
+│   ├── cakeId
+│   ├── cakeName
+│   ├── quantity
+│   ├── unitPrice
+│   └── subtotal
+├── totalAmount
+├── status
+├── completedAt
+├── createdAt
+└── updatedAt
 ```
 
 ## Rating
@@ -1049,10 +1014,10 @@ rating-service:3003
 notification-service:3004
 ```
 
-RabbitMQ is available internally through:
+RabbitMQ UI can be accessed by
 
 ```text
-rabbitmq-service
+rabbitmq-service:15672
 ```
 
 MongoDB services are available internally through their Kubernetes service names:
@@ -1089,7 +1054,6 @@ The Catalog Service also contains idempotent startup seeding logic. Seed data is
 
 # Assumptions and Limitations
 
-The current application is designed as a capstone project and includes some deliberate simplifications.
 
 ### Customer
 
@@ -1105,9 +1069,6 @@ Authentication and authorization are outside the current implementation.
 
 The payment flow is simulated through the frontend. Completing the payment action changes the order from `PENDING` to `COMPLETED`.
 
-### RabbitMQ failure handling
-
-RabbitMQ consumers acknowledge successfully processed messages. Processing failures are not currently implemented with a full retry/dead-letter queue strategy.
 
 ### Kubernetes environment
 
@@ -1140,13 +1101,16 @@ Possible future improvements include:
 
 For a new user who wants to run the complete Kubernetes deployment:
 
-```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd cake-delight
-minikube start
-chmod +x deploy.sh
-./deploy.sh
+ **Important:** `./deploy.sh` must be executed from the **root directory of the project**, where `deploy.sh` is located.
+
+Your terminal should be inside:
+
+```text
+cake-delight/
 ```
+
+before running the deployment script.
+
 
 After deployment, open the **Frontend URL printed by the script**.
 
