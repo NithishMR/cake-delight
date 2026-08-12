@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://192.168.49.2:32169";
+const API_BASE_URL = `http://${window.location.hostname}:30081`;
 
 const API = {
   cakes: `${API_BASE_URL}/api/cakes`,

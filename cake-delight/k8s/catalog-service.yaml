@@ -19,9 +19,7 @@ spec:
     spec:
       containers:
         - name: catalog-service
-
           image: cake-delight-catalog-service:latest
-
           imagePullPolicy: IfNotPresent
 
           ports:
@@ -33,6 +31,32 @@ spec:
 
             - name: MONGO_URL
               value: "mongodb://mongo-catalog:27017/catalog_db"
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
 
 ---
 apiVersion: v1
