@@ -1,9 +1,10 @@
 # Cake Delight
 
-Cake Delight is a microservices-based cake ordering application built as a capstone project. The application provides a complete flow for browsing cakes, managing a basket, placing orders, completing payment, receiving notifications, and submitting ratings.
+Cake Delight is a microservices-based cake ordering application. The application provides a complete flow for browsing cakes, managing a basket, placing orders, completing payment, receiving notifications, and submitting ratings.
 
 The project can be run / deployed to a local Kubernetes cluster using Minikube.
 
+An end to end demo video has been provided.
 ---
 
 ## Table of Contents
@@ -82,8 +83,8 @@ The main components are:
 - Automatically create pending rating requests when an order is completed
 - Submit a 1-5 star rating
 - View pending ratings
-- View completed customer ratings
-- View ratings for all cakes
+- View completed customer ratings (Shown in average)
+- View Average ratings for all cakes
 
 ### Notifications
 
@@ -631,7 +632,7 @@ GET /api/ratings/pending/:customerId
 GET /api/ratings/customer/:customerId
 ```
 
-### Get rating for a cake
+### Get Average rating for a cake
 
 ```http
 GET /api/ratings/:cakeId
